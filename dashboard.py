@@ -104,7 +104,7 @@ def overview_data(data):
 def portfolio_density(data,geofile):
     st.title('Region Overview')
 
-    c1, c2 = st.beta_columns((2, 2), gap='large')
+    c1, c2 = st.beta_columns((2, 2))
 
     df = data.sample(10)
 
