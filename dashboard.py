@@ -90,7 +90,7 @@ def overview_data(data):
     st.title(':house: House Rocket :rocket: - Data Overview ')
     st.dataframe(data)
 
-    c1, c2 = st.columns((1, 1))
+    c1, c2 = st.beta_columns((1, 1))
     # Average Metrics Table
     c1.header(':signal_strength: Average Values')
     c1.dataframe(df, height=600)
@@ -104,7 +104,7 @@ def overview_data(data):
 def portfolio_density(data,geofile):
     st.title('Region Overview')
 
-    c1, c2 = st.columns((2, 2), gap='large')
+    c1, c2 = st.beta_columns((2, 2), gap='large')
 
     df = data.sample(10)
 
@@ -247,7 +247,7 @@ def physical_categories(data):
                                         data['is_waterfront'].sort_values().unique(),
                                         index=1)
 
-    c1, c2 = st.columns(2)
+    c1, c2 = st.beta_columns(2)
 
     # ========= House per Bedrooms ==========
     c1.header('House per Bedrooms')
@@ -261,7 +261,7 @@ def physical_categories(data):
     fig = px.histogram(df, x='bathrooms', nbins=10)
     c2.plotly_chart(fig, use_container_width=True)
 
-    c1, c2 = st.columns(2)
+    c1, c2 = st.beta_columns(2)
     # ========= House per Floors ============
     c1.header('House per Floors')
     df = data[data['floors'] < f_floors]
