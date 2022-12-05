@@ -45,24 +45,38 @@ def add_price_m2(data):
 
 
 def overview_data(data):
+    ##########################################
     # Data Overview
+    ##########################################
     st.sidebar.title('Overview Data')
     f_attributes = st.sidebar.multiselect('Enter Columns', data.columns)
     f_zipcode = st.sidebar.multiselect('Zipcode', data['zipcode'].sort_values().unique())
 
     # Filtering data using  atributes and zipcodes
     if (f_attributes != []) & (f_zipcode != []):  # attributes and zipcode selected
-        data = data.loc[data['zipcode'].isin(f_zipcode), f_attributes]
-    elif (f_attributes == []) & (f_zipcode != []):  # attributes no selected
-        data = data.loc[data['zipcode'].isin(f_zipcode), :]
+        df = data.loc[data['zipcode'].isin(f_zipcode), f_attributes]
     elif (f_attributes != []) & (f_zipcode == []):  # zipcode non selected
-        data = data.loc[:, f_attributes]
+        df = data.loc[:, f_attributes]
+    elif (f_attributes == []) & (f_zipcode != []):  # attributes no selected
+        df = data.loc[data['zipcode'].isin(f_zipcode), :]
     else:  # attributes and zipcode non selected
-        data = data.copy()
+        df = data.copy()
+
+
+    # Load -> Showing Data
+    st.title(':house: House Rocket :rocket: - Data Overview ')
+    st.dataframe(df)
+
 
     ##########################################
     # Average Metrics
     ##########################################
+    # filtering Data with Zipcode
+    if (f_zipcode != []):
+        data = data.loc[data['zipcode'].isin(f_zipcode),:]
+    else:
+        pass
+
     df1 = data[['id', 'zipcode']].groupby('zipcode').count().reset_index()
     df2 = data[['price', 'zipcode']].groupby('zipcode').mean().reset_index()
     df3 = data[['sqft_living', 'zipcode']].groupby('zipcode').mean().reset_index()
@@ -86,9 +100,6 @@ def overview_data(data):
     df1 = pd.concat([max_, min_, mean, median, std], axis=1).reset_index()
     df1.columns = ['ATTRIBUTES', 'MAX', 'MIN', 'MEAN', 'MEDIAN', 'STD']
 
-    # Load -> Showing Data
-    st.title(':house: House Rocket :rocket: - Data Overview ')
-    st.dataframe(data)
 
     c1, c2 = st.beta_columns((1, 1))
     # Average Metrics Table
@@ -100,6 +111,8 @@ def overview_data(data):
     c2.dataframe(df1, height=600)
 
     return None
+
+
 
 def portfolio_density(data,geofile):
     st.title('Region Overview')
