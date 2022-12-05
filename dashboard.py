@@ -119,7 +119,7 @@ def portfolio_density(data,geofile):
 
     c1, c2 = st.beta_columns((2, 2))
 
-    df = data.sample(10)
+    df = data
 
     # Folium Lib - Base Map
     c1.header('Portfolio Density')
@@ -146,7 +146,7 @@ def portfolio_density(data,geofile):
     df = data[['price', 'zipcode']].groupby('zipcode').mean().reset_index()
     df.columns = ['ZIP', 'PRICE']
 
-    df = df.sample(10)
+    df = df
     geofile = geofile[geofile['ZIP'].isin(df['ZIP'].tolist())]
 
     region_price_map = folium.Map(location=[data['lat'].mean(),
